@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu Management</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #27ae60;
+      margin: 0;
+      padding: 0;
+    }
+
+    .menu-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: white;
+    }
+
+    .nav-links {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      background-color: rgba(255,255,255,0.2);
+    }
+
+    .nav-links a:hover {
+      background-color: rgba(255,255,255,0.3);
+    }
+
+    .add-form {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .form-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      align-items: center;
+    }
+
+    .form-row input, .form-row select, .form-row textarea {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-family: inherit;
+    }
+
+    .form-row textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    .order-types-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .order-types-section label {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .order-types-checkboxes {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .order-types-checkboxes label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: normal;
+      color: #555;
+      cursor: pointer;
+    }
+
+    .order-types-checkboxes input[type="checkbox"] {
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .image-upload-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .file-upload-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border: 2px dashed #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background-color: #f8f9fa;
+      text-align: center;
+      justify-content: center;
+    }
+
+    .file-upload-label:hover {
+      border-color: #27ae60;
+      background-color: #e8f5e8;
+    }
+
+    .upload-icon {
+      font-size: 20px;
+    }
+
+    .upload-text {
+      font-weight: 500;
+      color: #555;
+    }
+
+    .image-preview-container {
+      position: relative;
+      display: inline-block;
+      max-width: 200px;
+    }
+
+    .preview-image {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 2px solid #ddd;
+    }
+
+    .remove-image-btn {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .remove-image-btn:hover {
+      background-color: #c0392b;
+    }
+
+    .form-row button {
+      padding: 8px 16px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      min-width: 120px;
+    }
+
+    .form-row button:hover {
+      background-color: #229954;
+    }
+
+    .form-row button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .menu-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 15px;
+      align-items: flex-start;
+    }
+
+    .menu-card h3 {
+      margin-top: 0;
+      color: #27ae60;
+    }
+
+    .menu-card .category {
+      color: #f39c12;
+      font-size: 14px;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .menu-card .price {
+      font-size: 18px;
+      font-weight: bold;
+      color: #f39c12;
+      margin-bottom: 10px;
+    }
+
+    .menu-card .description {
+      color: #555;
+      margin-bottom: 15px;
+      font-style: italic;
+    }
+
+    .menu-card {
+      display: flex;
+      gap: 15px;
+      align-items: flex-start;
+    }
+
+    .menu-card .image-preview {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      background-color: #f8f9fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .menu-card .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-card .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .menu-card .title-section h3 {
+      margin: 0 0 5px 0;
+      color: #27ae60;
+    }
+
+    .menu-card .price-section {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .menu-card .price {
+      font-size: 20px;
+      font-weight: bold;
+      color: #f39c12;
+      margin: 0;
+    }
+
+    /* Responsive design for mobile */
+    @media (max-width: 768px) {
+      .menu-card {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .menu-card .image-preview {
+        width: 100%;
+        height: 150px;
+      }
+      
+      .menu-card .header-row {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .menu-card .price-section {
+        text-align: left;
+      }
+    }
+
+    .menu-card .order-types {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+
+    .menu-card .order-type-tag {
+      background-color: #e3f2fd;
+      color: #1976d2;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .menu-card .status {
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      display: inline-block;
+    }
+
+    .menu-card .status.active {
+      background-color: #d4edda;
+      color: #27ae60;
+    }
+
+    .menu-card .status.inactive {
+      background-color: #f8d7da;
+      color: #e74c3c;
+    }
+
+    .menu-card .actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .menu-card button {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .menu-card .edit-btn {
+      background-color: #f39c12;
+      color: white;
+    }
+
+    .menu-card .delete-btn {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    .menu-card .toggle-btn {
+      background-color: #27ae60;
+      color: white;
+    }
+
+    .message {
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .message.success {
+      background-color: #d4edda;
+      color: #27ae60;
+    }
+
+    .message.error {
+      background-color: #f8d7da;
+      color: #e74c3c;
+    }
+
+    .editing-indicator {
+      background-color: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeaa7;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      display: none;
+    }
+
+    .editing-indicator.show {
+      display: block;
+    }
+
+    .image-status {
+      font-size: 12px;
+      color: #666;
+      margin-top: 5px;
+      text-align: center;
+    }
+
+    .image-status.new {
+      color: #27ae60;
+      font-weight: bold;
+    }
+
+    .image-status.existing {
+      color: #f39c12;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="menu-container">
+    <h1>🍽️ Menu Management</h1>
+    
+    <div class="nav-links">
+      <a href="admin.html">📦 Orders Dashboard</a>
+      <a href="menu.html">🍽️ Menu Management</a>
+    </div>
+
+    <div id="message" class="message" style="display: none;"></div>
+    <div id="editingIndicator" class="editing-indicator">
+      <strong>✏️ Editing Mode:</strong> You are currently editing a menu item. Make your changes and click "Update Item" to save.
+    </div>
+
+    <div class="add-form">
+      <h3>Add New Menu Item</h3>
+      <div class="form-row">
+        <input type="text" id="itemName" placeholder="Item name" required>
+        <input type="number" id="itemPrice" placeholder="Price" min="0" step="0.01" required>
+        <select id="itemCategory" required>
+          <option value="">Select category</option>
+          <option value="Appetizers">Appetizers</option>
+          <option value="Main Course">Main Course</option>
+          <option value="Fast Food">Fast Food</option>
+          <option value="Sides">Sides</option>
+          <option value="Desserts">Desserts</option>
+          <option value="Beverages">Beverages</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="image-upload-section" style="flex: 2;">
+          <label for="itemImageFile" class="file-upload-label">
+            <span class="upload-icon">📁</span>
+            <span class="upload-text">Browse Image from Device</span>
+          </label>
+          <input type="file" id="itemImageFile" accept="image/*" style="display: none;" onchange="handleImageUpload(this)">
+                     <div id="imagePreview" class="image-preview-container" style="display: none;">
+             <img id="previewImg" class="preview-image" alt="Preview">
+             <button type="button" class="remove-image-btn" onclick="removeImage()">✕</button>
+             <div id="imageStatus" class="image-status"></div>
+           </div>
+        </div>
+        <textarea id="itemDescription" placeholder="Description (optional)" style="flex: 1;"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="order-types-section">
+          <label>Order Types:</label>
+          <div class="order-types-checkboxes">
+            <label><input type="checkbox" value="Half" checked> Half</label>
+            <label><input type="checkbox" value="Full" checked> Full</label>
+            <label><input type="checkbox" value="1 Plate" checked> 1 Plate</label>
+          </div>
+        </div>
+                 <button onclick="addMenuItem()" id="formButton">Add Item</button>
+         <button type="button" onclick="cancelEdit()" id="cancelButton" style="display: none; background-color: #6c757d;">Cancel Edit</button>
+         <button type="button" onclick="debugImageState()" style="background-color: #17a2b8; font-size: 11px; padding: 6px 10px;">Debug</button>
+      </div>
+    </div>
+
+    <div id="menuGrid" class="menu-grid"></div>
+  </div>
+
+  <script src="menu.js"></script>
+</body>
+</html>

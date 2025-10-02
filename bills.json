@@ -1,0 +1,23 @@
+[
+  {
+    "id": "bill_1756213820089",
+    "table": "Table Unknown",
+    "orders": [
+      {
+        "id": "ord_1756213813183",
+        "items": [
+          {
+            "id": "m1",
+            "name": "Pizza",
+            "price": 200,
+            "quantity": 1
+          }
+        ],
+        "totalPrice": 200,
+        "time": "26/8/2025, 6:40:13 pm"
+      }
+    ],
+    "totalAmount": 200,
+    "paidAt": "26/8/2025, 6:40:20 pm"
+  }
+]

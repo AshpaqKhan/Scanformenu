@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #27ae60;
+      margin: 0;
+      padding: 0;
+    }
+
+    .admin-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: white;
+    }
+
+    .nav-links {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      background-color: rgba(255,255,255,0.2);
+    }
+
+    .nav-links a:hover {
+      background-color: rgba(255,255,255,0.3);
+    }
+
+    .table-section {
+      margin-bottom: 40px;
+    }
+
+    .table-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: white;
+    }
+
+    .order-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .order-card {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      min-width: 250px;
+      flex: 1;
+    }
+
+    .order-card h3 {
+      margin-top: 0;
+      color: #27ae60;
+    }
+
+    .order-card ul {
+      padding-left: 20px;
+    }
+
+    .order-card li {
+      margin-bottom: 5px;
+    }
+
+    .order-card .status {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .delivered {
+      color: #27ae60;
+    }
+
+    .preparing {
+      color: #f39c12;
+    }
+
+    .order-card button {
+      margin-top: 10px;
+      padding: 8px 12px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    .order-card button:hover {
+      background-color: #229954;
+    }
+
+    .order-card .delivered-btn {
+      background-color: #6c757d;
+      cursor: default;
+    }
+
+    .bills-section {
+      background: linear-gradient(135deg, #f39c12, #e67e22);
+      padding: 30px;
+      border-radius: 20px;
+      margin: 40px 0;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .bills-section-title {
+      font-size: 28px;
+      font-weight: bold;
+      margin: 0 0 25px 0;
+      color: white;
+      text-align: center;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .bills-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .bills-stats {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .bills-actions {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .clear-btn {
+      padding: 12px 24px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .clear-btn:hover {
+      background-color: #c0392b;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .stat-card {
+      background: rgba(255,255,255,0.9);
+      padding: 15px 20px;
+      border-radius: 12px;
+      text-align: center;
+      min-width: 120px;
+    }
+
+    .stat-number {
+      font-size: 24px;
+      font-weight: bold;
+      color: #27ae60;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    .download-btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #27ae60;
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .download-btn:hover {
+      background-color: #229954;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .bills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 20px;
+    }
+
+    .bill-card {
+      background: rgba(255,255,255,0.95);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .bill-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      border-color: #f39c12;
+    }
+
+    .bill-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .bill-table {
+      font-size: 18px;
+      font-weight: bold;
+      color: #27ae60;
+    }
+
+    .bill-time {
+      font-size: 12px;
+      color: #666;
+      background: #f8f9fa;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .bill-items {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .bill-totals {
+      background: linear-gradient(135deg, #27ae60, #229954);
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    .bill-total-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+
+    .bill-total-row:last-child {
+      margin-bottom: 0;
+      border-top: 1px solid rgba(255,255,255,0.3);
+      padding-top: 8px;
+      font-size: 16px;
+    }
+
+    .empty-bills {
+      text-align: center;
+      color: white;
+      font-size: 18px;
+      padding: 40px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 15px;
+      border: 2px dashed rgba(255,255,255,0.3);
+    }
+
+    .folder-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 4px 8px;
+      margin: 0;
+      border-radius: 6px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+    }
+
+    .folder-btn:hover {
+      transform: scale(1.05);
+      text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    .archived-count {
+      color: white;
+      font-size: 16px;
+      margin-left: 10px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <h1>📦 Admin Order Dashboard</h1>
+    
+    <div class="nav-links">
+      <a href="admin.html">📦 Orders Dashboard</a>
+      <a href="menu.html">🍽️ Menu Management</a>
+    </div>
+
+    <div id="adminMessage" class="order-message" style="display:none;"></div>
+    <button id="clearOrdersBtn" class="summary-btn">Clear All Orders</button>
+    <div id="ordersContainer"></div>
+    
+    <div class="bills-section">
+      <div class="bills-section-title">💳 Paid Bills</div>
+      <div class="bills-header">
+        <div class="bills-stats">
+          <div class="stat-card">
+            <div class="stat-number" id="totalBills">0</div>
+            <div class="stat-label">Total Bills</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="totalRevenue">₹0</div>
+            <div class="stat-label">Total Revenue</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="avgBill">₹0</div>
+            <div class="stat-label">Avg Bill</div>
+          </div>
+        </div>
+        <div class="bills-actions">
+          <button id="clearPaidBillsBtn" class="clear-btn">🗑️ Clear Paid Bills</button>
+          <a href="/api/bills.xlsx" class="download-btn" download>📊 Download Excel</a>
+        </div>
+      </div>
+      <div id="billsContainer"></div>
+    </div>
+
+    <div class="bills-section" id="archivedBillsSection" style="display: none;">
+      <div class="bills-section-title">
+        <button id="toggleArchivedBtn" class="folder-btn">📁 Archived Bills</button>
+        <span class="archived-count" id="archivedCountBadge">(0)</span>
+      </div>
+      <div class="bills-header" id="archivedBillsHeader" style="display: none;">
+        <div class="bills-stats">
+          <div class="stat-card">
+            <div class="stat-number" id="archivedBillsCount">0</div>
+            <div class="stat-label">Archived Bills</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="archivedRevenue">₹0</div>
+            <div class="stat-label">Archived Revenue</div>
+          </div>
+        </div>
+        <a href="/api/bills.xlsx?archived=true" class="download-btn" download>📊 Download Archived Excel</a>
+      </div>
+      <div id="archivedBillsContainer" style="display: none;"></div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

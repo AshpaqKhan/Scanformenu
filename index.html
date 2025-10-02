@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 
+  
+  <meta charset="UTF-8" />
+  <title>Restaurant Menu</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <style>
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+      background-color: white;
+      margin: 15% auto;
+      padding: 20px;
+      border-radius: 12px;
+      width: 80%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: #000;
+    }
+
+    .order-type-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .order-type-option:hover {
+      background-color: #f5f5f5;
+    }
+
+    .order-type-option.selected {
+      background-color: #27ae60;
+      color: white;
+      border-color: #27ae60;
+    }
+
+    .add-to-cart-btn {
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    .add-to-cart-btn:hover {
+      background-color: #229954;
+    }
+
+    .item-card {
+      display: flex;
+      gap: 15px;
+      align-items: flex-start;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      background: white;
+    }
+
+    .item-image {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .item-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .item-title-section h3 {
+      margin: 0 0 5px 0;
+      color: #27ae60;
+      font-size: 18px;
+    }
+
+    .item-price-section {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .item-price {
+      font-size: 20px;
+      font-weight: bold;
+      color: #f39c12;
+      margin: 0;
+    }
+
+    .item-description {
+      color: #666;
+      margin-bottom: 15px;
+      font-style: italic;
+    }
+
+    .item-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Responsive design for mobile */
+    @media (max-width: 768px) {
+      .item-card {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .item-image {
+        width: 100%;
+        height: 150px;
+      }
+      
+      .item-header {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .item-price-section {
+        text-align: left;
+      }
+      
+      .modal-content {
+        width: 95%;
+        margin: 10% auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button id="viewOrdersBtn" class="summary-btn">📋 View My Orders</button>
+  <div id="orderSummary" class="summary-container" style="display: none;"></div>
+
+  <div class="main-content">
+    <div class="container">
+      <h1>🧾 Table No: <span id="table-number"></span></h1>
+      <h2>📋 Menu</h2>
+  <div id="menuFilters" class="menu-filters"></div>
+  <div id="menu" class="menu-grid"></div>
+
+
+      <!-- Order Type Modal -->
+      <div id="orderTypeModal" class="modal" style="display: none;">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <div id="modalItemInfo" style="display: flex; gap: 15px; margin-bottom: 20px; align-items: center;">
+            <div id="modalItemImage" style="width: 80px; height: 80px; border-radius: 8px; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center; color: #999; font-size: 10px;">No Image</div>
+            <div>
+              <h3 id="modalItemName" style="margin: 0 0 5px 0; color: #27ae60;"></h3>
+              <div id="modalItemPrice" style="font-size: 18px; font-weight: bold; color: #f39c12;"></div>
+            </div>
+          </div>
+          <h3>Select Order Type</h3>
+          <div id="orderTypeOptions"></div>
+          <button id="addToCartBtn" class="add-to-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+    <div class="order-section">
+      <h2>🛒 Your Order</h2>
+      <ul id="cart"></ul>
+      <button onclick="placeOrder()">Place Order</button>
+      <!-- ✅ Order messages -->
+      <p id="order-message" class="order-message"></p>
+      <p id="status-message" class="order-message"></p>
+    </div>
+  </div>
+
+  
+
+  <script src="script.js"></script>
+</body>
+</html>
